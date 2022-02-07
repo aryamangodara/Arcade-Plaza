@@ -1,14 +1,21 @@
 # Arcade Plaza
 
 An online gaming app.
-Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US). 
- <br><br> 
-Future Plans:<br>
-- Soon will also be available at Apple Store<br> 
-- In the future, we can also publish them on Web, Windows and macOS if necessary<br>
+Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US).
+ 
+Future Plans:
+
+- Soon will also be available at Apple Store
+- In the future, we can also publish them on Web, Windows and macOS if necessary
 
 ## Overview
+
 It simply provides us the UI to play the awesome games already available on the internet. [Download](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US) the android app to properly understand the basic functionalities.  
+
+- `Fork` the repo
+- `Clone` it on your device
+- Run `pub.get`
+- Start contributing 😁
 
 ## Getting Started
 
