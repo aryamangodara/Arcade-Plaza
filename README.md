@@ -1,7 +1,9 @@
 # Arcade Plaza
 
 An online gaming app.
-Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US).[Read this article](https://medium.com/@aryamangodara/why-i-open-sourced-my-flutter-game-application-7d008cdd01c5) to know history, concept etc
+Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US).
+
+[Read this article](https://medium.com/@aryamangodara/why-i-open-sourced-my-flutter-game-application-7d008cdd01c5) to know history, concept etc
  
 Future Plans:
 
