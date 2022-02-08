@@ -1,7 +1,7 @@
 # Arcade Plaza
 
 An online gaming app.
-Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US).
+Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US).[Read this article](https://medium.com/@aryamangodara/why-i-open-sourced-my-flutter-game-application-7d008cdd01c5) to know history, concept etc
  
 Future Plans:
 
@@ -27,7 +27,7 @@ Feel free to **file a new issue** with a respective title and description on the
 
 ## ✅&nbsp; Requirements
 
-Arcade Plaza requires a **Flutter version higher or equal to 2.0**
+Arcade Plaza requires a **Flutter version higher or equal to 1.8**
 
 ## 📫&nbsp; Have a question? Want to chat? Ran into a problem?
 
