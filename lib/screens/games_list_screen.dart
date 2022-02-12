@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:web_display/widgets/search_widget.dart';
 import '../models/ad_helper.dart';
 import '../widgets/no_internet.dart';
 import '../models/connectivity.dart' show MyConnectivity;
@@ -22,6 +23,9 @@ class GamesListScreen extends StatefulWidget {
 class _GamesListScreenState extends State<GamesListScreen> {
   Map _source = {ConnectivityResult.none: false};
   MyConnectivity _connectivity = MyConnectivity.instance;
+  List<Game> gamesList = games;
+  String query = '';
+  bool appBar = true;
 
   @override
   void initState() {
@@ -72,6 +76,34 @@ class _GamesListScreenState extends State<GamesListScreen> {
     super.dispose();
   }
 
+  Widget buildSearch() => SearchWidget(
+        text: query,
+        onSubmitted: filterList,
+        hintText: 'Search',
+        onReset: resetList,
+      );
+
+  void resetList() {
+    setState(() {
+      gamesList = games;
+      this.query = '';
+      appBar = true;
+    });
+  }
+
+  void filterList(String query) {
+    gamesList = games.where((game) {
+      String gameTitle = game.title.toLowerCase();
+      String queryLower = query.toLowerCase();
+
+      return gameTitle.contains(queryLower);
+    }).toList();
+    setState(() {
+      this.gamesList = gamesList;
+      this.query = query;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print(_updateInfo);
@@ -90,8 +122,19 @@ class _GamesListScreenState extends State<GamesListScreen> {
     print("update: $_updateInfo");
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Arcade Plaza'),
+          title: appBar ? const Text('Arcade Plaza') : buildSearch(),
           centerTitle: true,
+          actions: [
+            appBar
+                ? IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        appBar = false;
+                      });
+                    })
+                : SizedBox(),
+          ],
         ),
         drawer: MainDrawer(),
         body: DoubleBackToCloseApp(
@@ -108,6 +151,7 @@ class _GamesListScreenState extends State<GamesListScreen> {
                         ? InAppUpdate.performImmediateUpdate()
                         : Column(
                             children: [
+                              // buildSearch(),
                               Expanded(
                                 child: ListView.builder(
                                   padding: const EdgeInsets.all(5),
@@ -122,17 +166,17 @@ class _GamesListScreenState extends State<GamesListScreen> {
                                         }
                                         Navigator.of(context).push(
                                             MaterialPageRoute(builder: (ctx) {
-                                          return GameScreen(
-                                              games[i].title, games[i].gameUrl);
+                                          return GameScreen(gamesList[i].title,
+                                              gamesList[i].gameUrl);
                                         }));
                                       },
                                       child: ListItem(
-                                        games[i].title,
-                                        games[i].imageUrl,
+                                        gamesList[i].title,
+                                        gamesList[i].imageUrl,
                                       ),
                                     );
                                   },
-                                  itemCount: games.length,
+                                  itemCount: gamesList.length,
                                 ),
                               ),
                               Container(
