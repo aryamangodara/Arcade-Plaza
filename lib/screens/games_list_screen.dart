@@ -2,7 +2,9 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:get/get.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:web_display/controllers/search_controller.dart';
 import 'package:web_display/widgets/search_widget.dart';
 import '../models/ad_helper.dart';
 import '../widgets/no_internet.dart';
@@ -23,9 +25,7 @@ class GamesListScreen extends StatefulWidget {
 class _GamesListScreenState extends State<GamesListScreen> {
   Map _source = {ConnectivityResult.none: false};
   MyConnectivity _connectivity = MyConnectivity.instance;
-  List<Game> gamesList = games;
-  String query = '';
-  bool appBar = true;
+  SearchController searchController = Get.find<SearchController>();
 
   @override
   void initState() {
@@ -77,32 +77,9 @@ class _GamesListScreenState extends State<GamesListScreen> {
   }
 
   Widget buildSearch() => SearchWidget(
-        text: query,
-        onSubmitted: filterList,
+        text: searchController.query,
         hintText: 'Search',
-        onReset: resetList,
       );
-
-  void resetList() {
-    setState(() {
-      gamesList = games;
-      this.query = '';
-      appBar = true;
-    });
-  }
-
-  void filterList(String query) {
-    gamesList = games.where((game) {
-      String gameTitle = game.title.toLowerCase();
-      String queryLower = query.toLowerCase();
-
-      return gameTitle.contains(queryLower);
-    }).toList();
-    setState(() {
-      this.gamesList = gamesList;
-      this.query = query;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,80 +97,95 @@ class _GamesListScreenState extends State<GamesListScreen> {
     }
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     print("update: $_updateInfo");
-    return Scaffold(
-        appBar: AppBar(
-          title: appBar ? const Text('Arcade Plaza') : buildSearch(),
-          centerTitle: true,
-          actions: [
-            appBar
-                ? IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      setState(() {
-                        appBar = false;
-                      });
-                    })
-                : SizedBox(),
-          ],
-        ),
-        drawer: MainDrawer(),
-        body: DoubleBackToCloseApp(
-          snackBar: SnackBar(
-            content: Text('Tap back again to leave'),
+    return GetBuilder<SearchController>(
+      builder: (controller) {
+        return Scaffold(
+          appBar: AppBar(
+            title:
+                controller.appBar ? const Text('Arcade Plaza') : buildSearch(),
+            centerTitle: true,
+            actions: [
+              controller.appBar
+                  ? IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        controller.pressSearch();
+                      })
+                  : SizedBox(),
+            ],
           ),
-          child: FutureBuilder(
-            future: fetchFavorites(),
-            builder: (ctx, snapshot) => snapshot.connectionState ==
-                    ConnectionState.done
-                ? _conectivityStatus != 'Offline'
-                    ? _updateInfo?.updateAvailability ==
-                            UpdateAvailability.updateAvailable
-                        ? InAppUpdate.performImmediateUpdate()
-                        : Column(
-                            children: [
-                              // buildSearch(),
-                              Expanded(
-                                child: ListView.builder(
-                                  padding: const EdgeInsets.all(5),
-                                  itemBuilder: (ctx, i) {
-                                    return InkWell(
-                                      onTap: () {
-                                        if (_isInterstitialAdLoaded) {
-                                          FacebookInterstitialAd
-                                              .showInterstitialAd();
-                                        } else {
-                                          print("ad is not loaded");
-                                        }
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder: (ctx) {
-                                          return GameScreen(gamesList[i].title,
-                                              gamesList[i].gameUrl);
-                                        }));
-                                      },
-                                      child: ListItem(
-                                        gamesList[i].title,
-                                        gamesList[i].imageUrl,
+          drawer: MainDrawer(),
+          body: DoubleBackToCloseApp(
+            snackBar: SnackBar(
+              content: Text('Tap back again to leave'),
+            ),
+            child: controller.allGames.length == 0
+                ? Center(
+                    child: Text(
+                      'No games found!',
+                      style: TextStyle(fontSize: 42),
+                    ),
+                  )
+                : FutureBuilder(
+                    future: fetchFavorites(),
+                    builder: (ctx, snapshot) => snapshot.connectionState ==
+                            ConnectionState.done
+                        ? _conectivityStatus != 'Offline'
+                            ? _updateInfo?.updateAvailability ==
+                                    UpdateAvailability.updateAvailable
+                                ? InAppUpdate.performImmediateUpdate()
+                                : Column(
+                                    children: [
+                                      // buildSearch(),
+                                      Expanded(
+                                        child: ListView.builder(
+                                          padding: const EdgeInsets.all(5),
+                                          itemBuilder: (ctx, i) {
+                                            return InkWell(
+                                              onTap: () {
+                                                if (_isInterstitialAdLoaded) {
+                                                  FacebookInterstitialAd
+                                                      .showInterstitialAd();
+                                                } else {
+                                                  print("ad is not loaded");
+                                                }
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (ctx) {
+                                                  return GameScreen(
+                                                      controller
+                                                          .allGames[i].title,
+                                                      controller
+                                                          .allGames[i].gameUrl);
+                                                }));
+                                              },
+                                              child: ListItem(
+                                                controller.allGames[i].title,
+                                                controller.allGames[i].imageUrl,
+                                              ),
+                                            );
+                                          },
+                                          itemCount: controller.allGames.length,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  itemCount: gamesList.length,
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                child: FacebookBannerAd(
-                                  bannerSize: BannerSize.STANDARD,
-                                  placementId: AdHelper.fbBannerAdId,
-                                ),
-                              )
-                            ],
-                          )
-                    : NoInternet()
-                : Center(
-                    child: CircularProgressIndicator.adaptive(),
+                                      Container(
+                                        height: 50,
+                                        child: FacebookBannerAd(
+                                          bannerSize: BannerSize.STANDARD,
+                                          placementId: AdHelper.fbBannerAdId,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                            : NoInternet()
+                        : Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
                   ),
           ),
-        ),
-        backgroundColor: Colors.amber);
+          backgroundColor: Colors.amber,
+        );
+      },
+    );
   }
 }
