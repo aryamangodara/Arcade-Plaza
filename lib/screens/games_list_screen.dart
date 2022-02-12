@@ -25,6 +25,7 @@ class _GamesListScreenState extends State<GamesListScreen> {
   MyConnectivity _connectivity = MyConnectivity.instance;
   List<Game> gamesList = games;
   String query = '';
+  bool appBar = true;
 
   @override
   void initState() {
@@ -86,6 +87,7 @@ class _GamesListScreenState extends State<GamesListScreen> {
     setState(() {
       gamesList = games;
       this.query = '';
+      appBar = true;
     });
   }
 
@@ -120,8 +122,19 @@ class _GamesListScreenState extends State<GamesListScreen> {
     print("update: $_updateInfo");
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Arcade Plaza'),
+          title: appBar ? const Text('Arcade Plaza') : buildSearch(),
           centerTitle: true,
+          actions: [
+            appBar
+                ? IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        appBar = false;
+                      });
+                    })
+                : SizedBox(),
+          ],
         ),
         drawer: MainDrawer(),
         body: DoubleBackToCloseApp(
@@ -138,7 +151,7 @@ class _GamesListScreenState extends State<GamesListScreen> {
                         ? InAppUpdate.performImmediateUpdate()
                         : Column(
                             children: [
-                              buildSearch(),
+                              // buildSearch(),
                               Expanded(
                                 child: ListView.builder(
                                   padding: const EdgeInsets.all(5),

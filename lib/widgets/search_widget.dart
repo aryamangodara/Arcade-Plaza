@@ -23,22 +23,21 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Center(
         child: TextField(
           decoration: InputDecoration(
-            icon: Icon(Icons.search, color: Colors.black),
-            suffixIcon: widget.text.isNotEmpty
-                ? GestureDetector(
-                    child: Icon(Icons.close, color: Colors.black),
-                    onTap: () {
-                      widget.onReset();
-                    },
-                  )
-                : SizedBox(),
+            icon: Icon(Icons.search, color: Colors.white),
+            suffixIcon: GestureDetector(
+              child: Icon(Icons.close, color: Colors.white),
+              onTap: () {
+                widget.onReset();
+              },
+            ),
             hintText: widget.hintText,
+            hintStyle: TextStyle(color: Colors.white),
+            enabledBorder: InputBorder.none,
           ),
-          cursorColor: Colors.black,
+          cursorColor: Colors.white,
           onSubmitted: widget.onSubmitted,
         ),
       ),
