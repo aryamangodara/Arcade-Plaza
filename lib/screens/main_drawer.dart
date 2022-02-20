@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:web_display/screens/favorite_games_screen.dart';
-import 'package:web_display/screens/games_list_screen.dart';
+import './favorite_games_screen.dart';
+import './games_list_screen.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,7 +18,6 @@ class MainDrawer extends StatelessWidget {
                   height: 120,
                   width: 120,
                   padding: const EdgeInsets.all(15),
-                  // color: Colors.white,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle, color: Colors.white),
                   child: const Image(

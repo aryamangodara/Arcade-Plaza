@@ -37,7 +37,6 @@ class _GameScreenState extends State<GameScreen> {
       'Adam eve 4',
       'Adam and eve Zombies',
       'Dumb ways to die',
-      'Basketball Stars',
       'Will Hero',
       'Stickman Archer',
       'Penalty Shooters',

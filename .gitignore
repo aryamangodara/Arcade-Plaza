@@ -10,7 +10,7 @@
 .svn/
 
 #keystore file
-/android/*.jks
+/android/app/*.jks
 
 # IntelliJ related
 *.iml
