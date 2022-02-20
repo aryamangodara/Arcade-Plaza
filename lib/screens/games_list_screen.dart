@@ -13,7 +13,7 @@ import 'package:connectivity/connectivity.dart';
 import './main_drawer.dart';
 import '../models/games.dart';
 import '../widgets/list_item.dart';
-import 'game_screen.dart';
+import './game_screen.dart';
 
 class GamesListScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -32,7 +32,6 @@ class _GamesListScreenState extends State<GamesListScreen> {
     super.initState();
     FacebookAudienceNetwork.init();
     checkForUpdate();
-    _loadInterstitialAd();
     _connectivity.initialise();
     _connectivity.myStream.listen((source) {
       setState(() => _source = source);
@@ -48,29 +47,6 @@ class _GamesListScreenState extends State<GamesListScreen> {
     });
   }
 
-  bool _isInterstitialAdLoaded = false;
-  void _loadInterstitialAd() {
-    print("ad load is called");
-    FacebookInterstitialAd.loadInterstitialAd(
-      placementId: AdHelper.interstitialAdId,
-      listener: (result, value) {
-        print(">> FAN > Interstitial Ad: $result --> $value");
-        if (result == InterstitialAdResult.LOADED) {
-          print("ad is loaded");
-          _isInterstitialAdLoaded = true;
-        }
-
-        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
-        /// load a fresh Ad by calling this function.
-        if (result == InterstitialAdResult.DISMISSED &&
-            value["invalidated"] == true) {
-          _isInterstitialAdLoaded = false;
-          _loadInterstitialAd();
-        }
-      },
-    );
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -83,7 +59,6 @@ class _GamesListScreenState extends State<GamesListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_updateInfo);
     String _conectivityStatus;
     switch (_source.keys.toList()[0]) {
       case ConnectivityResult.none:
@@ -96,7 +71,6 @@ class _GamesListScreenState extends State<GamesListScreen> {
         _conectivityStatus = "Online";
     }
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    print("update: $_updateInfo");
     return GetBuilder<SearchController>(
       builder: (controller) {
         return Scaffold(
@@ -136,19 +110,12 @@ class _GamesListScreenState extends State<GamesListScreen> {
                                 ? InAppUpdate.performImmediateUpdate()
                                 : Column(
                                     children: [
-                                      // buildSearch(),
                                       Expanded(
                                         child: ListView.builder(
                                           padding: const EdgeInsets.all(5),
                                           itemBuilder: (ctx, i) {
                                             return InkWell(
                                               onTap: () {
-                                                if (_isInterstitialAdLoaded) {
-                                                  FacebookInterstitialAd
-                                                      .showInterstitialAd();
-                                                } else {
-                                                  print("ad is not loaded");
-                                                }
                                                 Navigator.of(context).push(
                                                     MaterialPageRoute(
                                                         builder: (ctx) {

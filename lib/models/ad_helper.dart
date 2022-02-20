@@ -1,13 +1,19 @@
 import 'dart:io';
-// import 'package:facebook_audience_network/facebook_audience_network.dart';
 
 class AdHelper {
 //facebook ads
   static String get interstitialAdId {
     if (Platform.isAndroid) {
-      return "296800735446599_296803568779649";
+      return "";
     }
     return ""; //ios id must be here
+  }
+
+  static String get fbBannerAdId {
+    if (Platform.isAndroid) {
+      return "296800735446599_301410258318980";
+    }
+    return "";
   }
 
 //google ads
@@ -19,12 +25,5 @@ class AdHelper {
     } else {
       throw UnsupportedError('Unsupported platform');
     }
-  }
-
-  static String get fbBannerAdId {
-    if (Platform.isAndroid) {
-      return "296800735446599_301410258318980";
-    }
-    return "";
   }
 }

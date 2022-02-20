@@ -5,7 +5,7 @@ import 'package:web_display/controllers/search_controller.dart';
 class SearchWidget extends StatefulWidget {
   final String text;
   final String hintText;
-  SearchController searchController = Get.find<SearchController>();
+  final SearchController searchController = Get.find<SearchController>();
 
   SearchWidget({
     Key key,

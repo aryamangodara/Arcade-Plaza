@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:web_display/models/games.dart';
 
 class SearchController extends GetxController {

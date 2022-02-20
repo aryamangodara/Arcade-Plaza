@@ -31,7 +31,6 @@ class _FavoriteGamesScreenState extends State<FavoriteGamesScreen> {
     });
 
     FacebookAudienceNetwork.init();
-    _loadInterstitialAd();
   }
 
   @override
@@ -43,29 +42,6 @@ class _FavoriteGamesScreenState extends State<FavoriteGamesScreen> {
       listener: BannerAdListener(),
       request: AdRequest(),
     )..load();
-  }
-
-  bool _isInterstitialAdLoaded = false;
-  void _loadInterstitialAd() {
-    FacebookInterstitialAd.loadInterstitialAd(
-      placementId: AdHelper
-          .interstitialAdId, //"IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617" YOUR_PLACEMENT_ID
-      listener: (result, value) {
-        print(">> FAN > Interstitial Ad: $result --> $value");
-        if (result == InterstitialAdResult.LOADED) {
-          print("ad is loaded");
-          _isInterstitialAdLoaded = true;
-        }
-
-        /// Once an Interstitial Ad has been dismissed and becomes invalidated,
-        /// load a fresh Ad by calling this function.
-        if (result == InterstitialAdResult.DISMISSED &&
-            value["invalidated"] == true) {
-          _isInterstitialAdLoaded = false;
-          _loadInterstitialAd();
-        }
-      },
-    );
   }
 
   @override
@@ -91,9 +67,12 @@ class _FavoriteGamesScreenState extends State<FavoriteGamesScreen> {
         body: DoubleBackToCloseApp(
           snackBar: SnackBar(content: Text('Tap back again to leave')),
           child: favoriteGames.isEmpty
-              ? Center(
-                  child: const Text(
-                      'You dont have any favorite games, try adding some'),
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: const Text(
+                        'You dont have any favorite games, try adding some'),
+                  ),
                 )
               : _conectivityStatus == 'Online'
                   ? Column(
@@ -103,11 +82,6 @@ class _FavoriteGamesScreenState extends State<FavoriteGamesScreen> {
                             itemBuilder: (ctx, i) {
                               return InkWell(
                                 onTap: () {
-                                  if (_isInterstitialAdLoaded) {
-                                    FacebookInterstitialAd.showInterstitialAd();
-                                  } else {
-                                    print("ad is not loaded");
-                                  }
                                   Navigator.of(context)
                                       .push(MaterialPageRoute(builder: (ctx) {
                                     return GameScreen(favoriteGames[i].title,

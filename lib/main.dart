@@ -14,14 +14,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     SearchController searchController = Get.put(SearchController());
 
     return GetMaterialApp(
       title: 'Arcade Plaza',
       theme: ThemeData(
         fontFamily: 'Cairo',
-        primarySwatch: Colors.pink,
-        accentColor: Colors.amber,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
+            .copyWith(secondary: Colors.amber),
       ),
       home: GamesListScreen(),
       debugShowCheckedModeBanner: false,
