@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:get/get.dart';
+import 'package:web_display/controllers/search_controller.dart';
 import './screens/favorite_games_screen.dart';
 import './screens/games_list_screen.dart';
 
@@ -12,7 +14,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    SearchController searchController = Get.put(SearchController());
+
+    return GetMaterialApp(
       title: 'Arcade Plaza',
       theme: ThemeData(
         fontFamily: 'Cairo',

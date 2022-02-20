@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:web_display/controllers/search_controller.dart';
 
 class SearchWidget extends StatefulWidget {
   final String text;
-  final ValueChanged<String> onSubmitted;
   final String hintText;
-  final Function onReset;
+  SearchController searchController = Get.find<SearchController>();
 
-  const SearchWidget({
+  SearchWidget({
     Key key,
     @required this.text,
-    @required this.onSubmitted,
     @required this.hintText,
-    @required this.onReset,
   }) : super(key: key);
 
   @override
@@ -25,20 +24,24 @@ class _SearchWidgetState extends State<SearchWidget> {
       height: 60,
       child: Center(
         child: TextField(
+          autofocus: true,
           decoration: InputDecoration(
             icon: Icon(Icons.search, color: Colors.white),
             suffixIcon: GestureDetector(
               child: Icon(Icons.close, color: Colors.white),
               onTap: () {
-                widget.onReset();
+                widget.searchController.closeSearch();
               },
             ),
             hintText: widget.hintText,
             hintStyle: TextStyle(color: Colors.white),
             enabledBorder: InputBorder.none,
           ),
+          style: TextStyle(
+            color: Colors.white,
+          ),
           cursorColor: Colors.white,
-          onSubmitted: widget.onSubmitted,
+          onChanged: widget.searchController.filterList,
         ),
       ),
     );
