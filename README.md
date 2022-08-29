@@ -1,6 +1,6 @@
 # Arcade Plaza
 
-<a href='https://play.google.com/store/apps/details?id=com.itcraftship.truth_or_dare' target='_blank'><img alt='Get it on Google Play' src='assets/images/google_play.png' height='48px'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza' target='_blank'><img alt='Get it on Google Play' src='assets/google_play.png' height='48px'/></a>
 An online gaming app.
 Arcade Plaza is an open source mobile gaming app currently available exclusively on [Play Store](https://play.google.com/store/apps/details?id=com.aryaman.arcade_plaza&hl=en_IN&gl=US).
 
