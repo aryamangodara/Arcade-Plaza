@@ -37,7 +37,7 @@ class MainDrawer extends StatelessWidget {
             title: const Text('Explore Games'),
             onTap: () {
               Navigator.of(context)
-                  .pushReplacementNamed(GamesListScreen.routeName);
+                  .pushReplacementNamed(HomeScreen.routeName);
             },
           ),
           ListTile(

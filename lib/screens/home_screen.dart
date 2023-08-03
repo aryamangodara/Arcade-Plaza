@@ -15,14 +15,14 @@ import '../models/games.dart';
 import '../widgets/list_item.dart';
 import './game_screen.dart';
 
-class GamesListScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
 
   @override
-  _GamesListScreenState createState() => _GamesListScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _GamesListScreenState extends State<GamesListScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   Map _source = {ConnectivityResult.none: false};
   MyConnectivity _connectivity = MyConnectivity.instance;
   SearchController searchController = Get.find<SearchController>();
