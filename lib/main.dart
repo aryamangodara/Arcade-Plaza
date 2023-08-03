@@ -24,11 +24,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
             .copyWith(secondary: Colors.amber),
       ),
-      home: GamesListScreen(),
+      home: HomeScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
         FavoriteGamesScreen.routeName: (ctx) => FavoriteGamesScreen(),
-        GamesListScreen.routeName: (ctx) => GamesListScreen(),
+        HomeScreen.routeName: (ctx) => HomeScreen(),
       },
     );
   }
